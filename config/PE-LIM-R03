@@ -1,0 +1,39 @@
+service timestamps log datetime msec
+service timestamps debug datetime msec
+service password-encryption
+!
+hostname PE-LIM-R03
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+interface GigabitEthernet0/0
+ description Conexion a CR-LIM-R02 (CORE)
+ ip address 23.0.0.2 255.255.255.252
+ duplex full
+ speed 1000
+!
+interface GigabitEthernet0/1
+ description Local LAN - Segmento 192.168.3.0/26
+ ip address 192.168.3.1 255.255.255.192
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+ip classless
+ip route 12.0.0.0 255.255.255.252 23.0.0.1 
+ip route 192.168.1.0 255.255.255.192 23.0.0.1 
+ip route 192.168.2.0 255.255.255.192 23.0.0.1 
+!
+banner motd ^C----ACCESO SOLO PERSONAL AUTORIZADO-----^C
+!
+line con 0
+ password 7 0822455D0A16
+ logging synchronous
+ login
+!
+end
